@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/*
+ * Bridle's palette is deliberately small and meaning-locked (see README
+ * "Accessibility and trust signals"): healthy / warning / blocked are the
+ * only status colors in the app, and they always mean the same thing
+ * everywhere they appear. Everything else is neutral ink/paper grays plus
+ * one accent for interactive elements. Don't add new colors decoratively.
+ */
+@theme {
+  --color-paper: #ffffff;
+  --color-paper-muted: #f7f8fa;
+  --color-ink: #14171f;
+  --color-ink-muted: #5b6270;
+  --color-border: #e3e6ea;
+
+  --color-accent: #3552d9;
+  --color-accent-hover: #2c44b8;
+  --color-accent-soft: #ecefff;
+
+  --color-healthy: #1b8a5a;
+  --color-healthy-soft: #e7f6ef;
+  --color-warning: #b5760a;
+  --color-warning-soft: #fdf1de;
+  --color-blocked: #c0293c;
+  --color-blocked-soft: #fbe9eb;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-paper: #14161c;
+    --color-paper-muted: #1b1e26;
+    --color-ink: #eef0f4;
+    --color-ink-muted: #9aa1b0;
+    --color-border: #2b2f3a;
+
+    --color-accent: #7c92ff;
+    --color-accent-hover: #97a8ff;
+    --color-accent-soft: #232a4a;
+
+    --color-healthy: #4fcf94;
+    --color-healthy-soft: #103426;
+    --color-warning: #e8a83c;
+    --color-warning-soft: #3a2c10;
+    --color-blocked: #f2707f;
+    --color-blocked-soft: #3a1620;
+  }
+}
+
+body {
+  background-color: var(--color-paper-muted);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+* {
+  border-color: var(--color-border);
+}
