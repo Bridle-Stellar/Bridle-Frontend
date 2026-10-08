@@ -18,6 +18,18 @@ transactions; it never calls Soroban RPC directly except to submit a
 transaction Bridle Backend already built and the owner has just signed
 with Freighter.
 
+## Part of Bridle
+
+Bridle is three repos:
+
+- [**Bridle-Contract**](https://github.com/Bridle-Stellar/Bridle-Contract): the Soroban
+  contract that holds the owner's guardrails and is the source of truth for every spend check.
+- [**Bridle-Backend**](https://github.com/Bridle-Stellar/Bridle-Backend): the relayer
+  that checks each agent payment against the contract before forwarding it, plus the API
+  this dashboard reads from and the client SDK agents use.
+- **Bridle-Frontend** (this repo): the owner's dashboard for watching spend and changing
+  policy, with every change signed in Freighter.
+
 ## Screens
 
 - **Connect** — Freighter wallet connect. First-time owners land in a
@@ -98,6 +110,9 @@ The `Deploy demo` workflow publishes `main` to GitHub Pages.
   from anyone else at submission time.
 
 ## Known gaps
+
+*Last checked 2026-10-08: Bridle Backend's `app/routers/policy.py` still has
+only `POST` routes, so the gap below is still open.*
 
 This frontend was built by reading Bridle Backend's README and code
 directly (per the project brief: don't guess at the chain-interaction
@@ -185,6 +200,14 @@ src/
 e2e/            Playwright tests
 scripts/        Screenshot capture for the README
 ```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, conventions, and the
+money-handling rule, and [open issues](https://github.com/Bridle-Stellar/Bridle-Frontend/issues)
+for work to pick up (look for `good first issue`). Security problems go
+through [SECURITY.md](SECURITY.md), not public issues. Everyone taking part
+follows the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
