@@ -1,5 +1,8 @@
 # Bridle Frontend
 
+[![CI](https://github.com/Bridle-Stellar/Bridle-Frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/Bridle-Stellar/Bridle-Frontend/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 The human-facing dashboard for **Bridle**: parental controls for an
 autonomous AI agent's crypto wallet on Stellar. This is the only one of
 Bridle's three repos a human looks at directly — it shows what an agent
@@ -30,6 +33,8 @@ with Freighter.
   and network info.
 
 ## Setup
+
+Requires Node.js 22.12 or newer.
 
 ```bash
 npm install
@@ -108,6 +113,8 @@ amount includes its token symbol (`src/components/common/MoneyAmount.tsx`)
 ## Testing
 
 ```bash
+npm run lint      # oxlint
+npm run typecheck # tsc
 npm test          # component/unit tests (Vitest + Testing Library)
 npm run test:e2e  # Playwright smoke test, mocked backend + wallet
 ```
@@ -138,4 +145,7 @@ src/
   pages/        Screen-level components wired to hooks
 e2e/            Playwright smoke test
 ```
-# Bridle-Frontend
+
+## License
+
+[MIT](LICENSE)

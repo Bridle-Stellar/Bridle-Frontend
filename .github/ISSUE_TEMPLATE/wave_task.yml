@@ -1,0 +1,53 @@
+name: Wave task
+description: A scoped contributor task (maintainers use this to post claimable work).
+labels: ["wave task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Contributors: comment to claim and wait to be assigned before starting. See CONTRIBUTING.md.
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Why this matters and where it fits in the app.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What to change. Name the files or folders likely involved.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: |
+        - [ ] ...
+        - [ ] Tests cover the new behavior
+        - [ ] lint, typecheck, test, and build pass
+    validations:
+      required: true
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Complexity
+      options:
+        - trivial
+        - medium
+        - high
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: Required background
+      description: What a contributor needs to know, for example React + TypeScript, React Query, Playwright, Stellar/Soroban basics, Freighter, WCAG.
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope

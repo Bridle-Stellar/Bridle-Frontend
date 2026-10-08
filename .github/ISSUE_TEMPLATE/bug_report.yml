@@ -1,0 +1,55 @@
+name: Bug report
+description: Something in the dashboard is broken or shows the wrong thing.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. If this could let someone sign the wrong transaction, misreport an amount, or hide the emergency-stop state, **stop** and follow SECURITY.md instead.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you saw, including any error text.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Connect Freighter on testnet
+        2. Go to Policy
+        3. ...
+    validations:
+      required: true
+  - type: dropdown
+    id: screen
+    attributes:
+      label: Screen
+      options:
+        - Connect / onboarding
+        - Overview
+        - Transactions
+        - Policy
+        - Settings
+        - Demo deployment
+        - Other / not sure
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, Freighter version, network (testnet/mainnet), and the commit or URL you used.
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or logs
+      description: Redact wallet addresses if you prefer. Never paste a secret key.
