@@ -13,6 +13,7 @@ import {
   requestAccess as freighterRequestAccess,
   signTransaction as freighterSignTransaction,
 } from '@stellar/freighter-api'
+import { DEMO_MODE, DEMO_WALLET } from '../demo/demoMode'
 
 export class FreighterError extends Error {
   code?: number
@@ -56,13 +57,14 @@ function testWalletOverride(): WalletConnection | null {
 }
 
 export async function isFreighterInstalled(): Promise<boolean> {
-  if (testWalletOverride()) return true
+  if (DEMO_MODE || testWalletOverride()) return true
   const res = await freighterIsConnected()
   return Boolean(res.isConnected) && !res.error
 }
 
 /** Prompts Freighter's connect dialog if not already authorized for this site. */
 export async function connectWallet(): Promise<WalletConnection> {
+  if (DEMO_MODE) return DEMO_WALLET
   const testWallet = testWalletOverride()
   if (testWallet) return testWallet
 
@@ -87,7 +89,7 @@ export async function getConnectedWallet(): Promise<WalletConnection | null> {
   // The test seam deliberately returns null here (not the override) so the
   // Connect Wallet screen still renders and a click still exercises
   // connectWallet() below — see the seam's doc comment.
-  if (testWalletOverride()) return null
+  if (DEMO_MODE || testWalletOverride()) return null
 
   const installed = await isFreighterInstalled()
   if (!installed) return null

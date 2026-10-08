@@ -44,6 +44,14 @@ function buildQuery(params?: Record<string, QueryValue>): string {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  // Demo builds never touch the network — see src/demo/demoMode.ts. Uses the
+  // raw compile-time constant (not DEMO_MODE) so the bundler can drop the
+  // mock from real builds entirely.
+  if (__BRIDLE_DEMO_MODE__) {
+    const { demoRequest } = await import('../demo/mockBackend')
+    return demoRequest<T>(path, init)
+  }
+
   let res: Response
   try {
     res = await fetch(`${BASE_URL}${path}`, {

@@ -68,6 +68,7 @@ src/
   hooks/        React Query hooks and policy-write mutations. The only place pages get data from.
   components/   Presentational components grouped by screen (common/ is shared). No data fetching.
   pages/        Screen-level components that wire hooks to components.
+  demo/         Demo-mode flag and in-memory mock backend. Used only behind DEMO_MODE.
 e2e/            Playwright tests with a mocked backend and wallet.
 ```
 

@@ -1,4 +1,5 @@
 import { useWallet } from '../../context/WalletContext'
+import { DEMO_MODE } from '../../demo/demoMode'
 
 export function ConnectWallet() {
   const { status, error, connect } = useWallet()
@@ -10,6 +11,11 @@ export function ConnectWallet() {
         Parental controls for your AI agent's wallet. Connect your Stellar wallet to set up or manage its spending
         guardrails.
       </p>
+      {DEMO_MODE && (
+        <p className="mt-3 text-sm text-ink-muted">
+          This is a demo with sample data. Continuing uses a made-up address; Freighter is not used.
+        </p>
+      )}
 
       {status === 'not-installed' ? (
         <div className="mt-6 rounded-lg border border-warning bg-warning-soft p-4 text-sm">
@@ -31,7 +37,7 @@ export function ConnectWallet() {
           disabled={status === 'connecting'}
           className="mt-6 w-full rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-white hover:bg-accent-hover disabled:opacity-60"
         >
-          {status === 'connecting' ? 'Connecting…' : 'Connect Freighter'}
+          {status === 'connecting' ? 'Connecting…' : DEMO_MODE ? 'Open demo dashboard' : 'Connect Freighter'}
         </button>
       )}
       {error && <p className="mt-3 text-sm text-blocked">{error}</p>}
