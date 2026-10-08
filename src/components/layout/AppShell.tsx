@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { isExpectedNetwork, useWallet } from '../../context/WalletContext'
+import { DEMO_MODE } from '../../demo/demoMode'
 import { shortenAddress } from '../../lib/format'
 
 const NAV_ITEMS = [
@@ -40,7 +41,7 @@ export function AppShell() {
                 <span className="rounded-full bg-warning-soft px-2.5 py-1 text-xs font-medium text-warning">Wrong network: {network}</span>
               )}
               <span className="rounded-full bg-paper-muted px-2.5 py-1 font-mono text-xs text-ink-muted" title={address}>
-                {shortenAddress(address)}
+                {DEMO_MODE ? `Demo wallet ${shortenAddress(address)}` : shortenAddress(address)}
               </span>
               <button type="button" onClick={disconnect} className="text-sm font-medium text-ink-muted hover:text-ink">
                 Disconnect

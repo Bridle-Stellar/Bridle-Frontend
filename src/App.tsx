@@ -3,12 +3,18 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ConnectWallet } from './components/onboarding/ConnectWallet'
 import { LoadingState } from './components/common/LoadingState'
 import { AppShell } from './components/layout/AppShell'
+import { DemoBanner } from './components/layout/DemoBanner'
 import { WalletProvider, useWallet } from './context/WalletContext'
+import { DEMO_MODE } from './demo/demoMode'
 import { OnboardingPage } from './pages/OnboardingPage'
 import { OverviewPage } from './pages/OverviewPage'
 import { PolicyPage } from './pages/PolicyPage'
 import { SettingsPage } from './pages/SettingsPage'
 import { TransactionsPage } from './pages/TransactionsPage'
+
+// Vite's `base` (set for the GitHub Pages demo, which is served from a
+// subpath); '/' everywhere else.
+const ROUTER_BASENAME = import.meta.env.BASE_URL.replace(/\/+$/, '') || '/'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,7 +48,8 @@ export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <WalletProvider>
-        <BrowserRouter>
+        {DEMO_MODE && <DemoBanner />}
+        <BrowserRouter basename={ROUTER_BASENAME}>
           <AuthGate />
         </BrowserRouter>
       </WalletProvider>

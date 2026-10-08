@@ -3,6 +3,9 @@
 [![CI](https://github.com/Bridle-Stellar/Bridle-Frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/Bridle-Stellar/Bridle-Frontend/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+**Live demo:** https://bridle-stellar.github.io/Bridle-Frontend/ (sample
+data only; no wallet or backend is connected. See [Demo mode](#demo-mode).)
+
 The human-facing dashboard for **Bridle**: parental controls for an
 autonomous AI agent's crypto wallet on Stellar. This is the only one of
 Bridle's three repos a human looks at directly — it shows what an agent
@@ -14,6 +17,18 @@ spend summary, stats) and for building unsigned policy-change
 transactions; it never calls Soroban RPC directly except to submit a
 transaction Bridle Backend already built and the owner has just signed
 with Freighter.
+
+## Part of Bridle
+
+Bridle is three repos:
+
+- [**Bridle-Contract**](https://github.com/Bridle-Stellar/Bridle-Contract): the Soroban
+  contract that holds the owner's guardrails and is the source of truth for every spend check.
+- [**Bridle-Backend**](https://github.com/Bridle-Stellar/Bridle-Backend): the relayer
+  that checks each agent payment against the contract before forwarding it, plus the API
+  this dashboard reads from and the client SDK agents use.
+- **Bridle-Frontend** (this repo): the owner's dashboard for watching spend and changing
+  policy, with every change signed in Freighter.
 
 ## Screens
 
@@ -31,6 +46,17 @@ with Freighter.
   before it asks for a signature.
 - **Settings** — registered agent address(es), session (disconnect),
   and network info.
+
+## Screenshots
+
+Captured from the demo build with `npm run screenshots`. **All screenshots
+show demo data**, not a real wallet or backend.
+
+| Overview (demo data) | Transactions (demo data) |
+| --- | --- |
+| ![Overview screen with today's spend against the daily cap, the most recent blocked payment, and recent activity. Demo data.](docs/screenshots/overview.png) | ![Transaction history with a spend-over-time chart, filters, and plain-language rejection reasons. Demo data.](docs/screenshots/transactions.png) |
+| **Policy: old → new confirm step (demo data)** | **Emergency stop on (demo data)** |
+| ![Policy screen with the confirm dialog showing the daily cap changing from 100 XLM to 150 XLM before signing. Demo data.](docs/screenshots/policy-confirm.png) | ![Overview with the red "Emergency stop is ON" banner. Demo data.](docs/screenshots/emergency-stop.png) |
 
 ## Setup
 
@@ -52,6 +78,26 @@ must match Bridle Backend's `SOROBAN_RPC_URL` / `NETWORK_PASSPHRASE` — a
 mismatch shows a "wrong network" warning instead of silently signing a
 transaction for the wrong chain.
 
+### Demo mode
+
+```bash
+npm run dev:demo     # dev server with sample data
+npm run build:demo   # what the live demo deploys
+```
+
+Demo mode is a build-time flag (`VITE_DEMO_MODE=true`, set by
+`.env.demo`). It replaces Bridle Backend with an in-memory mock
+(`src/demo/mockBackend.ts`), "connects" a made-up address instead of
+Freighter, and applies policy changes to the mock instead of signing or
+submitting anything. Every screen shows a permanent **Demo data** banner,
+and normal builds don't include the demo code at all.
+
+One difference from a real setup: the demo answers `GET /policy` with a
+sample policy so the Policy screen can be shown. Real Bridle Backend
+doesn't have that endpoint yet (see [Known gaps](#known-gaps)).
+
+The `Deploy demo` workflow publishes `main` to GitHub Pages.
+
 ### Wallet requirements
 
 - The [Freighter](https://www.freighter.app/) browser extension, installed
@@ -64,6 +110,9 @@ transaction for the wrong chain.
   from anyone else at submission time.
 
 ## Known gaps
+
+*Last checked 2026-10-08: Bridle Backend's `app/routers/policy.py` still has
+only `POST` routes, so the gap below is still open.*
 
 This frontend was built by reading Bridle Backend's README and code
 directly (per the project brief: don't guess at the chain-interaction
@@ -127,6 +176,10 @@ npm run test:e2e  # Playwright smoke test, mocked backend + wallet
 - `src/components/policy/*.test.tsx` — the policy forms: invalid/negative
   amounts and malformed addresses are rejected before a signature is ever
   requested.
+- `src/demo/mockBackend.test.ts` — the demo mock's responses, and that
+  demo mode is off in normal builds.
+- `e2e/demo.spec.ts` — the demo build shows the "Demo data" banner on
+  every screen and never calls a backend.
 - `e2e/overview.spec.ts` — connect wallet → view overview → view
   transaction history, against a mocked Bridle Backend (via Playwright's
   `page.route`) and a mocked Freighter (via a test-only seam in
@@ -143,8 +196,18 @@ src/
   hooks/        React Query hooks + policy-write mutations
   components/   Presentational components, grouped by screen (common/ is shared)
   pages/        Screen-level components wired to hooks
-e2e/            Playwright smoke test
+  demo/         Demo-mode flag and in-memory mock backend (demo builds only)
+e2e/            Playwright tests
+scripts/        Screenshot capture for the README
 ```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, conventions, and the
+money-handling rule, and [open issues](https://github.com/Bridle-Stellar/Bridle-Frontend/issues)
+for work to pick up (look for `good first issue`). Security problems go
+through [SECURITY.md](SECURITY.md), not public issues. Everyone taking part
+follows the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
